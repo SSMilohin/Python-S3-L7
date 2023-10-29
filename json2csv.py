@@ -7,11 +7,10 @@ try:
 except:
     json_name = input("Введите название файла (например, sample-1.json или sample-2.json): ")
 
-csv_name = json_name.rstrip(".json") + ".csv"
-
 with open(json_name, "r", encoding="utf-8") as json_file:
     json_data = json.load(json_file)
 
+csv_name = list(json_data.keys())[0] + ".csv"
 data = list(json_data.values())[0]
 headers = data[0].keys()
 
