@@ -1,11 +1,24 @@
+from sys import argv
 import json
+import csv
 
-json_name = "sample-1.json"
-name = json_name.rstrip(".json")
-print(name)
+try:
+    json_name = argv[1]
+except:
+    json_name = input("Введите название файла (например, sample-1.json или sample-2.json): ")
 
-with open(json_name, "r") as j:
-    json_data = json.load(j)
+csv_name = json_name.rstrip(".json") + ".csv"
 
+with open(json_name, "r", encoding="utf-8") as json_file:
+    json_data = json.load(json_file)
 
-print(json_data.values())
+data = list(json_data.values())[0]
+headers = data[0].keys()
+
+with open(csv_name, "w", encoding="utf-8", newline="") as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerow(headers)
+    for row in data:
+        writer.writerow(row.values())
+
+print("Конвертация", json_name, "в", csv_name, "прошла успешно!")
